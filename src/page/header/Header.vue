@@ -1,6 +1,8 @@
 <template>
   <div class="header">
-    由我来组成头部
+    <div>
+      <h1>前端小白 - 吴某人的博客</h1>
+    </div>
   </div>
 </template>
 
@@ -11,8 +13,7 @@ export default {
 </script>
 
 <style scoped>
-  .header {
-    background-color: #a5bcff;
-    height: 80px;
+  h1 {
+    font-size: 1rem;
   }
 </style>
