@@ -1,6 +1,6 @@
 <template>
   <el-main>
-    由我来组成海绵体
+    <router-view></router-view>
   </el-main>
 </template>
 
