@@ -1,0 +1,36 @@
+[
+	{
+		"id": "1",
+		"title": "前端基础",
+		"icon": "iconfont icon-diannao",
+		"children": [
+			{
+                "id": "1-1",
+                "title": "HTML",
+                "icon": "iconfont icon-h5",
+                "children": [
+                    { "id": "1-1-1", "title": "HTML文章1" },
+                    { "id": "1-1-2", "title": "HTML文章2" }
+                ]
+            },
+            {
+                "id": "1-2",
+                "title": "CSS",
+                "icon": "iconfont icon-css3",
+                "children": [
+                    { "id": "1-1-1", "title": "CSS文章1" },
+                    { "id": "1-1-2", "title": "CSS文章2" }
+                ]
+            },
+            {
+                "id": "1-3",
+                "title": "JS",
+                "icon": "iconfont icon-js",
+                "children": [
+                    { "id": "1-1-1", "title": "JS文章1" },
+                    { "id": "1-1-2", "title": "JS文章2" }
+                ]
+            }
+		]
+	}
+]

@@ -10,7 +10,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="less" scoped>
   .el-main {
     background-color: #f1eefc;
     height: 100%;

@@ -1,14 +1,35 @@
 <template>
   <div id="app">
-    你好！
+    <el-container>
+      <el-header>
+        <Header/>
+      </el-header>
+      <el-container>
+        <Aside/>
+        <router-view class="main"></router-view>
+      </el-container>
+    </el-container>
   </div>
 </template>
 
 <script>
+import Header from './page/header/Header.vue'
+import Aside from './page/aside/Aside.vue'
 export default {
-  name: 'App'
+  name: 'app',
+  components: {
+    Header,
+    Aside
+  }
 }
 </script>
 
 <style>
+  .el-header {
+    padding: 0;
+    background-color: #a5bcff;
+  }
+  .el-container {
+    height: 100%;
+  }
 </style>
