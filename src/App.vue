@@ -6,7 +6,7 @@
       </el-header>
       <el-container>
         <Aside/>
-        <router-view class="main"></router-view>
+        <Main/>
       </el-container>
     </el-container>
   </div>
@@ -15,11 +15,13 @@
 <script>
 import Header from './page/header/Header.vue'
 import Aside from './page/aside/Aside.vue'
+import Main from './page/main/Main.vue'
 export default {
   name: 'app',
   components: {
     Header,
-    Aside
+    Aside,
+    Main
   }
 }
 </script>
