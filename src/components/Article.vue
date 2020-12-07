@@ -8,9 +8,8 @@
       </el-breadcrumb-item>
     </el-breadcrumb>
     <el-card>
-      <template v-if="params === 'add'">
-        <Add></Add>
-      </template>
+      <Add v-if="params === 'add'"/>
+      <div v-else>{{params}}</div>
     </el-card>
   </div>
 </template>

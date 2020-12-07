@@ -116,15 +116,21 @@ export default {
     },
     // 删除分类
     delMenu (id, i) {
-      this.$axios.post('/api/blog/delMenu.php', this.$qs.stringify({
-        data: { id: id, i: i }
-      }))
-        .then(res => {
-          if (res.status === 200) {
-            this.$message.success('删除分类成功！')
-            this.getAsideData(() => this.getI())
-          } else this.$message.error('删除分类失败！')
-        })
+      this.$confirm('此操作将永久删除该分类, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.$axios.post('/api/blog/delMenu.php', this.$qs.stringify({
+          data: { id: id, i: i }
+        }))
+          .then(res => {
+            if (res.status === 200) {
+              this.$message.success('删除分类成功！')
+              this.getAsideData(() => this.getI())
+            } else this.$message.error('删除分类失败！')
+          })
+      })
     },
     ...mapActions(['getAsideData'])
   }
