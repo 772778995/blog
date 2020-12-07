@@ -1,10 +1,13 @@
 <template>
   <div>
-    欢迎来到你爹的博客！
+    AddArticle组件
   </div>
 </template>
 
 <script>
+export default {
+  name: 'AddLv1'
+}
 </script>
 
 <style>
