@@ -8,7 +8,7 @@
     <!-- 标签页 -->
     <el-tabs tab-position="left" v-model="activeIndex" :before-leave="beforeLeaveTabs">
       <!-- 标签页-文章分类 -->
-      <el-tab-pane label="文章分类/标题" name="0">
+      <el-tab-pane label="文章分类/标题" name="1">
         <!-- 第一行 -->
         <el-row>
           <el-col :span="8" :offset="4">
@@ -49,7 +49,7 @@
         </el-row>
         <!-- 标签页-编辑文章 -->
       </el-tab-pane>
-      <el-tab-pane label="新文章内容" name="1">
+      <el-tab-pane label="新文章内容" name="2">
         <div id="editor"></div>
         <el-form-item>
           <el-button type="primary" @click="addArcicle">提交文章</el-button>
@@ -61,12 +61,13 @@
 
 <script>
 import E from 'wangeditor'
-import { mapState } from 'vuex'
+import { mapState, mapActions } from 'vuex'
+
 export default {
   name: 'AddLv1',
   data () {
     return {
-      activeIndex: '0',
+      activeIndex: '1',
       lv2List: [],
       articleForm: {
         lv1: '',
@@ -90,25 +91,43 @@ export default {
     ...mapState(['asideData'])
   },
   methods: {
+    // 选中一级分类后获取该分类下的二级分类
     getLv2List (i) {
       const ele = this.asideData.find((value, index, array) => value.title === i)
       this.lv2List = ele.children
       this.articleForm.lv2 = ''
     },
+    // 获取选中二级分类的id
     getParentID (i) {
       const ele = this.lv2List.find((value, index, array) => value.title === i)
       this.articleForm.parentID = ele.id
     },
     // 进入编辑文章前校验表单
     beforeLeaveTabs (to, from) {
-      if (to === '1') {
+      if (to === '2') {
         let isCheck = true
         this.$refs.articleFormRef.validateField(['lv1', 'lv2', 'title'], val => {
           if (val !== '') isCheck = false
         })
-        return isCheck
+        if (isCheck) {
+          this.editor.txt.html(`
+            <h1 id="idvcl" style="text-align: center; ">
+              <font size="7">${this.articleForm.title}</font>
+            </h1>
+            <h2>
+              <font id="0idom" size="5">
+                H2
+              </font>
+            </h2>
+            <p>&nbsp; &nbsp; 正文……</p>
+        `)
+        } else {
+          this.$alert('请先编辑文章分类/标题')
+          return isCheck
+        }
       }
     },
+    // 提交文章
     addArcicle () {
       this.articleForm.content = this.editor.txt.html()
       this.$axios.post('/api/blog/addArticle.php', this.$qs.stringify({
@@ -116,17 +135,24 @@ export default {
       }))
         .then(res => {
           if (res.status === 200) {
-            this.$notify.success({
-              title: '成功添加新文章！'
-            })
-            console.log(res.data)
+            this.$notify.success({ title: '成功添加新文章！' })
+            // 刷新侧边栏
+            this.getAsideData()
+            // 清空富文本
+            this.editor.txt.clear()
+            // 清空表单
+            this.$refs.articleFormRef.resetFields()
+            // 跳转标签页
+            this.$router.push(`/article/${res.data.id}`)
           }
         })
-    }
+    },
+    ...mapActions(['getAsideData'])
   },
   mounted () {
     this.editor = new E('#editor')
     this.editor.config.height = 420
+    this.editor.config.zIndex = 100
     this.editor.create()
   }
 }

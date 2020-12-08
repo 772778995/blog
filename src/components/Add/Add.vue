@@ -24,7 +24,7 @@ export default {
     return {
       activeIndex: 0,
       activeList: [
-        { label: '编辑分类', name: '0', component: 'AddMenu' },
+        { label: '增删分类/文章', name: '0', component: 'AddMenu' },
         { label: '编辑文章', name: '1', component: 'AddArticle' }
       ]
     }
