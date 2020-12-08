@@ -25,6 +25,8 @@ axios.interceptors.response.use(function (response) {
   return response
 }, function (error) {
   // 对响应错误做点什么
+  needRequestCount--
+  if (!needRequestCount) vue.$loading().close()
   return Promise.reject(error)
 })
 

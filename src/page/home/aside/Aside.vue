@@ -57,7 +57,8 @@ export default {
       // 侧边栏导航默认项
       activePath: this.$route.path,
       // 侧边栏是否折叠
-      collapse: false,
+      collapse: document.body.offsetWidth < 1100,
+      screenWidth: document.body.offsetWidth,
       // 添加新内容表单数据
       addForm: {
         // 添加内容抽屉是否显示
@@ -78,12 +79,36 @@ export default {
   computed: {
     ...mapState(['asideData'])
   },
+  watch: {
+    screenWidth (val) {
+      // 为了避免频繁触发resize函数导致页面卡顿，使用定时器
+      if (!this.timer) {
+        // 一旦监听到的screenWidth值改变，就将其重新赋给data里的screenWidth
+        this.screenWidth = val
+        this.timer = true
+        const that = this
+        setTimeout(function () {
+          // 打印screenWidth变化的值
+          console.log(that.screenWidth)
+          that.timer = false
+        }, 400)
+      }
+      this.collapse = val < 1100
+    }
+  },
   methods: {
     // 获取侧边栏菜单
     ...mapActions(['getAsideData'])
   },
   created () {
     this.getAsideData()
+    const that = this
+    window.onresize = () => {
+      return (() => {
+        window.screenWidth = document.body.clientWidth
+        that.screenWidth = window.screenWidth
+      })()
+    }
   }
 }
 </script>
