@@ -80,6 +80,9 @@ export default {
     ...mapState(['asideData'])
   },
   watch: {
+    '$route.path' (val) {
+      this.activePath = val
+    },
     screenWidth (val) {
       // 为了避免频繁触发resize函数导致页面卡顿，使用定时器
       if (!this.timer) {

@@ -6,7 +6,7 @@ import Article from '../components/Article.vue'
 Vue.use(VueRouter)
 
 const routes = [
-  { path: '/', redirect: '/article' },
+  { path: '/', redirect: '/article/add' },
   {
     path: '/article',
     component: Home,

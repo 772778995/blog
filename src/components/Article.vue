@@ -1,5 +1,5 @@
 <template>
-  <div id="article" v-loading="isLoading">
+  <div id="article">
     <!-- 面包屑导航 -->
     <el-breadcrumb separator-class="el-icon-arrow-right">
       <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
@@ -10,7 +10,17 @@
     </el-breadcrumb>
     <el-card>
       <Add v-if="id === 'add'"/>
-      <div v-else v-html="content"></div>
+      <div v-else>
+        <el-card>
+          <h1>{{articleData.title}}</h1>
+          作者:<el-tag>{{articleData.author}}</el-tag>
+          <span class="right">
+            发布于: {{articleData.createTime}}
+          </span>
+        </el-card>
+        <div v-html="articleData.content"></div>
+        <span class="right">最终编辑于 {{articleData.editTime}}</span>
+      </div>
     </el-card>
   </div>
 </template>
@@ -24,8 +34,7 @@ export default {
     return {
       breadcrumb: [],
       id: this.$route.params.id,
-      content: '',
-      isLoading: false
+      articleData: {}
     }
   },
   watch: {
@@ -42,7 +51,7 @@ export default {
         .then(res => {
           const data = res.data
           if (data.path) this.breadcrumb = data.path.split(',')
-          this.content = data.content
+          this.articleData = data
         })
     }
   },
@@ -61,6 +70,22 @@ export default {
     .el-card {
       box-shadow: 0 1px 1px rgba(0, 0, 0, .15) !important;
       min-height: 555px;
+      padding: 0 0 40px 0;
+      .el-card {
+        min-height: 0;
+        transform: translateY(-50px);
+        h1 {
+          font-size: 45px;
+          line-height: 20px;
+          text-align: center;
+        }
+        .el-tag {
+          margin-left: 10px;
+        }
+      }
+      span.right {
+        float: right;
+      }
     }
   }
 </style>

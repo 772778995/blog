@@ -11,7 +11,7 @@
         <el-button v-if="userInfo" type="primary" @click="loginOut">
           退 出
         </el-button>
-        <el-button v-else type="primary" @click="loginDialog = true">
+        <el-button v-else type="primary" @click="showLoginDialog">
           登 陆
         </el-button>
       </div>
@@ -57,7 +57,7 @@
 
       <!-- 登陆框底部 -->
       <span slot="footer" class="dialog-footer">
-        <el-button @click="loginDialog = false">取 消</el-button>
+        <el-button @click="hiddenLoginDialog">取 消</el-button>
         <el-button type="primary" @click="login">登 陆</el-button>
       </span>
     </el-dialog>
@@ -68,12 +68,11 @@
 
 <script>
 import { mapState, mapMutations, mapActions } from 'vuex'
+import { getCookies } from '../../../assets/js/cookies.js'
 export default {
   name: 'Header',
   data () {
     return {
-      // 登陆框是否显示
-      loginDialog: false,
       // 登陆表单
       loginForm: {
         Email: '',
@@ -93,10 +92,10 @@ export default {
     }
   },
   computed: {
-    ...mapState(['userInfo'])
+    ...mapState(['loginDialog', 'userInfo'])
   },
   methods: {
-    ...mapMutations(['loginOut']),
+    ...mapMutations(['showLoginDialog', 'hiddenLoginDialog', 'loginOut']),
     ...mapActions(['getUserInfo']),
     // 登陆事件
     login () {
@@ -109,26 +108,24 @@ export default {
             data: this.loginForm
           }))
             .then(res => {
-              // 登陆成功
-              if (res.status === 200) {
+              const data = res.data
+              if (data.success) {
                 this.getUserInfo()
-                this.$message.success('登陆成功！')
-                this.loginDialog = false
-              } else {
-                // 登陆失败
-                this.$message.error('登陆失败！')
-              }
+                this.$message.success(data.active)
+                this.hiddenLoginDialog()
+              } else this.$message.warning(data.active)
             })
         }
       })
     },
     // 关闭登陆框时重置登陆表单
     close () {
+      this.hiddenLoginDialog()
       this.$refs.loginFormRef.resetFields()
     }
   },
   created () {
-    this.getUserInfo()
+    if (getCookies().BAEID) this.getUserInfo()
   }
 }
 </script>

@@ -5,22 +5,34 @@
       <!-- 查看文章目录选项卡 -->
       <el-tab-pane label="编辑目录">
 
-        <!-- 多选框显示滑块 -->
-        <el-row>
-          <el-col :span="4" :offset="20">
-            <el-switch
-              v-model="checkIsShow"
-              active-text="删除文章">
-            </el-switch>
-          </el-col>
-        </el-row>
+        <el-input
+          class="search"
+          placeholder="输入关键字进行过滤"
+          v-model="filterText">
+        </el-input>
 
         <!-- 树目录 -->
         <el-tree
           :data="asideData"
           :props="treeProps"
+          node-key="id"
           default-expand-all
-          :show-checkbox="checkIsShow">
+          :filter-node-method="filterNode"
+          ref="tree">
+          <span class="custom-tree-node" slot-scope="{ node, data }">
+            <span>{{ node.label }}</span>
+            <span>
+              <el-button v-if="!data.children" type="text" size="mini" @click="toSee(data)">
+                查看
+              </el-button>
+              <el-button v-if="!data.children" type="text" size="mini" @click="d(data)">
+                编辑
+              </el-button>
+              <el-button type="text" size="mini" @click="delMenu(data.id, data.lv, data.title, data.children, node, data)">
+                删除
+              </el-button>
+            </span>
+          </span>
         </el-tree>
 
       </el-tab-pane>
@@ -43,7 +55,7 @@
             <el-tag
               v-for="item in asideData"
               :key="item.id"
-              @close="delMenu(item.id, 1)"
+              @close="delMenu(item.id, 1, item.title, item.children)"
               closable>
               {{item.title}}
             </el-tag>
@@ -86,7 +98,7 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex'
+import { mapState, mapMutations, mapActions } from 'vuex'
 export default {
   name: 'AddMenu',
   data () {
@@ -97,7 +109,7 @@ export default {
     }
     return {
       // 树目录属性表
-      checkIsShow: false,
+      filterText: '',
       treeProps: {
         label: 'title',
         children: 'children'
@@ -123,9 +135,33 @@ export default {
     }
   },
   computed: {
-    ...mapState(['asideData'])
+    ...mapState(['asideData', 'userInfo'])
+  },
+  watch: {
+    filterText (val) {
+      this.$refs.tree.filter(val)
+    }
   },
   methods: {
+    ...mapMutations(['showLoginDialog']),
+    ...mapActions(['getAsideData', 'getLogData']),
+    // 搜索树目录
+    filterNode (value, data) {
+      if (!value) return true
+      return data.title.indexOf(value) !== -1
+    },
+    // 查看文章
+    toSee (data) {
+      console.log(`/${data.id}`)
+      this.$router.push(`/article/${data.id}`)
+    },
+    // 删除树目录节点
+    removeNode (node, data) {
+      const parent = node.parent
+      const children = parent.data.children || parent.data
+      const index = children.findIndex(d => d.id === data.id)
+      children.splice(index, 1)
+    },
     // 获取二级分类列表
     getI () {
       this.addMenuForm.i = this.asideData.find((value, index, array) => value.id === this.addMenuForm.parent)
@@ -135,45 +171,78 @@ export default {
       this.$refs.addMenuFormRef.validate(val => {
         // 校验通过
         if (val) {
-          // 提交表单
-          this.$axios.post('/api/blog/addAsideMenu.php', this.$qs.stringify({
-            data: this.addMenuForm
-          }))
-            .then(res => {
-              if (res.status === 200) {
-                this.$message.success('提交新分类成功！')
-                this.getAsideData(() => this.getI())
-              }
-            })
-            .catch(err => this.$message.error(err.response.statusText))
+          // 检查登陆状态
+          if (this.userInfo) {
+            // 已登陆提交新分类表单
+            this.$axios.post('/api/blog/addAsideMenu.php', this.$qs.stringify({
+              data: this.addMenuForm,
+              author: this.userInfo.name
+            }))
+              .then(res => {
+                const data = res.data
+                console.log(data)
+                if (data.success) {
+                  this.$message.success(data.active)
+                  this.getAsideData(() => this.getI())
+                  this.$refs.addMenuFormRef.resetFields()
+                  this.getLogData()
+                } else this.$message.warning(data.active)
+              })
+              // 未登录状态显示登陆框
+          } else this.showLoginDialog()
         }
       })
     },
     // 删除分类
-    delMenu (id, i) {
+    delMenu (id, i, title, children, node, data) {
       this.$confirm('此操作将永久删除该分类, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        this.$axios.post('/api/blog/delMenu.php', this.$qs.stringify({
-          data: { id: id, i: i }
-        }))
-          .then(res => {
-            if (res.status === 200) {
-              this.$message.success('删除分类成功！')
-              this.getAsideData(() => this.getI())
-            } else this.$message.error('删除分类失败！')
-          })
+        // 确认删除
+        // 检查登陆状态
+        if (this.userInfo) {
+          this.$axios.post('/api/blog/delMenu.php', this.$qs.stringify({
+            data: { id: id, i: i, title: title, children: children },
+            author: this.userInfo.name
+          }))
+            .then(res => {
+              const data = res.data
+              console.log(data)
+              if (data.success) {
+                this.$message.success(data.active)
+                this.getAsideData(() => this.getI())
+                this.getLogData()
+                if (node && data) this.removeNode(node, data)
+              } else this.$message.warning(data.active)
+            })
+        } else this.showLoginDialog()
       })
-    },
-    ...mapActions(['getAsideData'])
+    }
   }
 }
 </script>
 
 <style lang="less" scoped>
   #add-menu {
+    .search {
+      width: 400px;
+      margin: 10px 0 20px 5%;
+    }
+    .el-tree {
+      max-width: 90%;
+      min-width: 300px;
+      margin: auto;
+    }
+    .custom-tree-node {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 14px;
+      padding-right: 8px;
+    }
     .el-form {
       margin: 50px auto;
       max-width: 400px !important;

@@ -7,31 +7,48 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    // 登陆框是否显示
+    loginDialog: false,
+    // 用户信息
     userInfo: false,
-    asideData: []
+    // 侧边栏数据
+    asideData: [],
+    // 日志数据
+    logData: []
   },
   mutations: {
     // 赋值用户信息
     setUserInfo (state, data) {
       state.userInfo = data
-      console.log(data)
+    },
+    // 显示登陆框
+    showLoginDialog (state) {
+      state.loginDialog = true
+    },
+    hiddenLoginDialog (state) {
+      state.loginDialog = false
     },
     // 退出登陆
     loginOut (state) {
-      state.userInfo = false
       setCookies('BAEID', false, -1)
+      location.reload()
+      state.userInfo = false
     },
     // 赋值侧边栏数据
     setAsideData (state, data) {
       state.asideData = data
+    },
+    // 设置日志数据
+    setLogData (state, data) {
+      state.logData = data
     }
   },
   actions: {
     // 获取用户数据
     getUserInfo (context) {
       axios.get('/api/public/userInfo.php').then(res => {
-        context.commit('setUserInfo', res.data)
-        console.log(res)
+        const data = res.data
+        context.commit('setUserInfo', data.msg)
       })
     },
     // 获取侧边栏数据
@@ -40,6 +57,13 @@ export default new Vuex.Store({
         .then(res => {
           context.commit('setAsideData', res.data)
           if (callback) callback()
+        })
+    },
+    // 获取日志数据
+    getLogData (context) {
+      axios.get('/api/blog/getLog.php')
+        .then(res => {
+          context.commit('setLogData', res.data)
         })
     }
   },

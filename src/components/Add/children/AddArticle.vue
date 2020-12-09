@@ -7,6 +7,7 @@
     :rules="articleFormRules">
     <!-- 标签页 -->
     <el-tabs tab-position="left" v-model="activeIndex" :before-leave="beforeLeaveTabs">
+
       <!-- 标签页-文章分类 -->
       <el-tab-pane label="文章分类/标题" name="1">
         <!-- 第一行 -->
@@ -47,21 +48,27 @@
             </el-form-item>
           </el-col>
         </el-row>
+        <el-row>
+          <el-col :span="7" :offset="4">
+            <el-button type="primary" @click="activeIndex = '2'">下一步</el-button>
+          </el-col>
+        </el-row>
         <!-- 标签页-编辑文章 -->
       </el-tab-pane>
       <el-tab-pane label="新文章内容" name="2">
         <div id="editor"></div>
         <el-form-item>
-          <el-button type="primary" @click="addArcicle">提交文章</el-button>
+          <el-button class="addArticleBtn" type="primary" @click="addArcicle">提交文章</el-button>
         </el-form-item>
       </el-tab-pane>
+
     </el-tabs>
   </el-form>
 </template>
 
 <script>
 import E from 'wangeditor'
-import { mapState, mapActions } from 'vuex'
+import { mapState, mapMutations, mapActions } from 'vuex'
 
 export default {
   name: 'AddLv1',
@@ -69,6 +76,7 @@ export default {
     return {
       activeIndex: '1',
       lv2List: [],
+      editor: null,
       articleForm: {
         lv1: '',
         lv2: '',
@@ -83,14 +91,21 @@ export default {
           { required: true, message: '请输入文章标题', trigger: 'blur' },
           { min: 2, max: 30, message: '请输入2-30个字符的标题', trigger: 'blur' }
         ]
-      },
-      editor: null
+      }
     }
   },
   computed: {
-    ...mapState(['asideData'])
+    ...mapState(['asideData', 'userInfo'])
+  },
+  watch: {
+    activeIndex (val) {
+      this.activeIndex = val
+    }
   },
   methods: {
+    ...mapMutations(['showLoginDialog']),
+    ...mapActions(['getAsideData', 'getLogData']),
+
     // 选中一级分类后获取该分类下的二级分类
     getLv2List (i) {
       const ele = this.asideData.find((value, index, array) => value.title === i)
@@ -111,15 +126,7 @@ export default {
         })
         if (isCheck) {
           this.editor.txt.html(`
-            <h1 id="idvcl" style="text-align: center; ">
-              <font size="7">${this.articleForm.title}</font>
-            </h1>
-            <h2>
-              <font id="0idom" size="5">
-                H2
-              </font>
-            </h2>
-            <p>&nbsp; &nbsp; 正文……</p>
+            <p>&nbsp; &nbsp; ${this.articleForm.title}的正文……</p>
         `)
         } else {
           this.$alert('请先编辑文章分类/标题')
@@ -129,29 +136,37 @@ export default {
     },
     // 提交文章
     addArcicle () {
-      this.articleForm.content = this.editor.txt.html()
-      this.$axios.post('/api/blog/addArticle.php', this.$qs.stringify({
-        data: this.articleForm
-      }))
-        .then(res => {
-          if (res.status === 200) {
-            this.$notify.success({ title: '成功添加新文章！' })
-            // 刷新侧边栏
-            this.getAsideData()
-            // 清空富文本
-            this.editor.txt.clear()
-            // 清空表单
-            this.$refs.articleFormRef.resetFields()
-            // 跳转标签页
-            this.$router.push(`/article/${res.data.id}`)
-          }
-        })
-    },
-    ...mapActions(['getAsideData'])
+      // 检查登陆状态
+      if (this.userInfo) {
+        // 已登录，向后台提出请求
+        this.articleForm.content = this.editor.txt.html()
+        this.$axios.post('/api/blog/addArticle.php', this.$qs.stringify({
+          data: this.articleForm,
+          author: this.userInfo.name
+        }))
+          .then(res => {
+            const data = res.data
+            if (data.success) {
+              this.$notify.success({ title: data.active })
+              // 刷新侧边栏
+              this.getAsideData()
+              // 清空富文本
+              this.editor.txt.clear()
+              // 清空表单
+              this.$refs.articleFormRef.resetFields()
+              // 跳转标签页
+              this.$router.push(`/article/${data.msg.id}`)
+              // 刷新日志数据
+              this.getLogData()
+            } else this.$notify.warning({ title: data.active })
+          })
+          // 未登录,显示登陆框
+      } else this.showLoginDialog()
+    }
   },
   mounted () {
     this.editor = new E('#editor')
-    this.editor.config.height = 420
+    this.editor.config.height = 359
     this.editor.config.zIndex = 100
     this.editor.create()
   }
@@ -159,4 +174,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
+  .addArticleBtn {
+    margin-top: 10px;
+  }
 </style>

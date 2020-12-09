@@ -15,17 +15,19 @@
 <script>
 import AddMenu from './children/AddMenu.vue'
 import AddArticle from './children/AddArticle.vue'
+import Log from './children/Log.vue'
 export default {
   name: 'Add',
   components: {
-    AddMenu, AddArticle
+    AddMenu, AddArticle, Log
   },
   data () {
     return {
       activeIndex: 0,
       activeList: [
         { label: '增删分类/文章', name: '0', component: 'AddMenu' },
-        { label: '编辑文章', name: '1', component: 'AddArticle' }
+        { label: '添加新文章', name: '1', component: 'AddArticle' },
+        { label: '查看日志', name: '2', component: 'Log' }
       ]
     }
   }
