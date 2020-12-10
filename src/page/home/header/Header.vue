@@ -132,6 +132,7 @@ export default {
 
 <style lang="less" scoped>
   .header{
+    padding: 3px 20px 0 20px;
     div {
       display: flex;
       justify-content: space-between;

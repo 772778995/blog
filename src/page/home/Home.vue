@@ -22,6 +22,9 @@ export default {
     Header,
     Aside,
     Main
+  },
+  mounted () {
+    this.$axios.get('/api/public/getIP.php')
   }
 }
 </script>

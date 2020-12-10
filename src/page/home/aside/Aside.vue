@@ -39,11 +39,25 @@
           </el-menu-item>
         </el-submenu>
       </el-submenu>
-      <!-- 添加一级菜单 -->
+
+      <!-- 编辑内容 -->
       <el-menu-item index="/article/add">
         <i class = "el-icon-edit"></i>
         <span slot="title">编辑内容</span>
       </el-menu-item>
+
+      <!-- 个人中心 -->
+      <el-menu-item v-if="userInfo" index="/article/user">
+        <i class = "el-icon-s-custom"></i>
+        <span slot="title">个人中心</span>
+      </el-menu-item>
+
+      <!-- 未登录 -->
+      <el-menu-item v-else>
+        <i class = "el-icon-s-custom"></i>
+        <span slot="title">未 登 录</span>
+      </el-menu-item>
+
     </el-menu>
   </el-aside>
 </template>
@@ -77,11 +91,16 @@ export default {
     }
   },
   computed: {
-    ...mapState(['asideData'])
+    ...mapState(['asideData', 'userInfo'])
   },
   watch: {
-    '$route.path' (val) {
-      this.activePath = val
+    $route: {
+      handler (value) {
+        // 改变编辑文章数据
+        this.activePath = value.path
+        console.log(value.path)
+      },
+      deep: true
     },
     screenWidth (val) {
       // 为了避免频繁触发resize函数导致页面卡顿，使用定时器

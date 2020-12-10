@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../page/home/Home.vue'
-import Article from '../components/Article.vue'
+import BlogContent from '../components/blogConent/BlogContent.vue'
 
 Vue.use(VueRouter)
 
@@ -11,7 +11,7 @@ const routes = [
     path: '/article',
     component: Home,
     children: [
-      { path: '/article/:id', component: Article }
+      { path: '/article/:id', component: BlogContent }
     ]
   }
 ]

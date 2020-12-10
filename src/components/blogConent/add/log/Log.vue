@@ -45,9 +45,6 @@ export default {
   methods: {
     ...mapMutations(['setLogData']),
     ...mapActions(['getLogData'])
-  },
-  created () {
-    this.getLogData()
   }
 }
 </script>

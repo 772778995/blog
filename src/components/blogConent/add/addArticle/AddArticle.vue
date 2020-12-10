@@ -71,7 +71,7 @@ import E from 'wangeditor'
 import { mapState, mapMutations, mapActions } from 'vuex'
 
 export default {
-  name: 'AddLv1',
+  name: 'AddArticle',
   data () {
     return {
       activeIndex: '1',

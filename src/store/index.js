@@ -13,6 +13,8 @@ export default new Vuex.Store({
     userInfo: false,
     // 侧边栏数据
     asideData: [],
+    // 是否处于编辑状态
+    isEditor: false,
     // 日志数据
     logData: []
   },
@@ -25,8 +27,12 @@ export default new Vuex.Store({
     showLoginDialog (state) {
       state.loginDialog = true
     },
+    // 隐藏登陆框
     hiddenLoginDialog (state) {
       state.loginDialog = false
+    },
+    changeIsEditor (state, data) {
+      state.isEditor = data
     },
     // 退出登陆
     loginOut (state) {

@@ -13,19 +13,19 @@
 </template>
 
 <script>
-import AddMenu from './children/AddMenu.vue'
-import AddArticle from './children/AddArticle.vue'
-import Log from './children/Log.vue'
+import EditCate from './editCate/EditCate.vue'
+import AddArticle from './addArticle/AddArticle.vue'
+import Log from './log/Log.vue'
 export default {
   name: 'Add',
   components: {
-    AddMenu, AddArticle, Log
+    EditCate, AddArticle, Log
   },
   data () {
     return {
       activeIndex: 0,
       activeList: [
-        { label: '增删分类/文章', name: '0', component: 'AddMenu' },
+        { label: '增删分类/文章', name: '0', component: 'EditCate' },
         { label: '添加新文章', name: '1', component: 'AddArticle' },
         { label: '查看日志', name: '2', component: 'Log' }
       ]
