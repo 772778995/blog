@@ -7,10 +7,10 @@
       :collapse-transition = "false"
       :collapse = "collapse"
       unique-opened
-      background-color = "#9dc6ff"
-      text-color = "#000"
+      background-color = "#23508a"
+      text-color = "#fff"
       router
-      active-text-color = "#fff">
+      active-text-color = "#ffff00">
       <!-- 一级菜单 -->
       <el-submenu
         v-for = "item in asideData"
@@ -44,18 +44,6 @@
       <el-menu-item index="/article/add">
         <i class = "el-icon-edit"></i>
         <span slot="title">编辑内容</span>
-      </el-menu-item>
-
-      <!-- 个人中心 -->
-      <el-menu-item v-if="userInfo" index="/article/user">
-        <i class = "el-icon-s-custom"></i>
-        <span slot="title">个人中心</span>
-      </el-menu-item>
-
-      <!-- 未登录 -->
-      <el-menu-item v-else>
-        <i class = "el-icon-s-custom"></i>
-        <span slot="title">未 登 录</span>
       </el-menu-item>
 
     </el-menu>
@@ -98,7 +86,6 @@ export default {
       handler (value) {
         // 改变编辑文章数据
         this.activePath = value.path
-        console.log(value.path)
       },
       deep: true
     },
@@ -111,7 +98,6 @@ export default {
         const that = this
         setTimeout(function () {
           // 打印screenWidth变化的值
-          console.log(that.screenWidth)
           that.timer = false
         }, 400)
       }
@@ -137,7 +123,7 @@ export default {
 
 <style lang="less" scoped>
   .el-aside {
-    background-color: #9dc6ff;
+    background: rgba(157,198,255,0.1);
     height: 100%;
     .open-aside {
       width: 100%;
@@ -145,7 +131,7 @@ export default {
       line-height: 30px;
       text-align: center;
       letter-spacing: 3px;
-      background-color: deepskyblue;
+      background-color: #23508a;
       font-size: 14px;
       color: #303133;
       padding: 0 20px;
@@ -155,7 +141,7 @@ export default {
       font-weight: bolder;
     }
     .open-aside:hover {
-      background-color: rgb(126, 158, 204);
+      background-color: #1c3f6c;
     }
     .el-menu {
       border: none;

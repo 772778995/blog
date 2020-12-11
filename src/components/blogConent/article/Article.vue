@@ -69,7 +69,6 @@ export default {
         }))
           .then(res => {
             const data = res.data
-            console.log(data)
             // 后台响应成功
             if (data.success) {
               // 更新文章数据
@@ -77,7 +76,6 @@ export default {
               // 弹出成功信息
               this.$notify.success({
                 title: data.active,
-                message: '审核通过将发送邮件通知您，请留意邮箱信息',
                 duration: 0
               })
               // 后台响应失败,弹出警告信息
@@ -99,6 +97,7 @@ export default {
 
 <style lang="less" scoped>
   .el-card {
+    background: rgba(255,255,255,0);
     min-height: 555px;
     padding: 0;
     .is-editor {

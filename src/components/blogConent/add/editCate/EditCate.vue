@@ -58,7 +58,6 @@ export default {
           }))
             .then(res => {
               const data = res.data
-              console.log(data)
               // 如果后台响应成功
               if (data.success) {
                 this.$message.success(data.active)

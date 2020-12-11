@@ -16,7 +16,9 @@ export default new Vuex.Store({
     // 是否处于编辑状态
     isEditor: false,
     // 日志数据
-    logData: []
+    logData: [],
+    // 日志参数
+    date: new Date()
   },
   mutations: {
     // 赋值用户信息
@@ -31,6 +33,7 @@ export default new Vuex.Store({
     hiddenLoginDialog (state) {
       state.loginDialog = false
     },
+    // 改变编辑状态
     changeIsEditor (state, data) {
       state.isEditor = data
     },
@@ -47,6 +50,18 @@ export default new Vuex.Store({
     // 设置日志数据
     setLogData (state, data) {
       state.logData = data
+    },
+    changeDate (state, data) {
+      state.date = data
+    }
+  },
+  getters: {
+    getDate (state) {
+      const year = state.date.getFullYear()
+      const month = state.date.getMonth() + 1
+      const day = state.date.getDate()
+      console.log(`${year}-${month}-${day}`)
+      return `${year}-${month}-${day}`
     }
   },
   actions: {
@@ -67,7 +82,7 @@ export default new Vuex.Store({
     },
     // 获取日志数据
     getLogData (context) {
-      axios.get('/api/blog/getLog.php')
+      axios.get('/api/blog/getLog.php', { params: { date: context.getters.getDate } })
         .then(res => {
           context.commit('setLogData', res.data)
         })

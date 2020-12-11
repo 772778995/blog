@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <Bg class="bg" />
     <el-container>
       <el-header>
         <Header/>
@@ -13,12 +14,14 @@
 </template>
 
 <script>
+import Bg from '../bg/Bg.vue'
 import Header from './header/Header.vue'
 import Aside from './aside/Aside.vue'
 import Main from './main/Main.vue'
 export default {
   name: 'Home',
   components: {
+    Bg,
     Header,
     Aside,
     Main
@@ -29,12 +32,17 @@ export default {
 }
 </script>
 
-<style>
+<style lang="less">
+  .bg {
+    opacity: 0.5;
+    z-index: 0;
+  }
   .el-header {
     padding: 0;
-    background-color: #a5bcff;
+    background-color: rgba(165,100,255,0.5);
   }
   .el-container {
     height: 100%;
+    opacity: 0.94;
   }
 </style>

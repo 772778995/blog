@@ -4,7 +4,8 @@
     <!-- 搜索框 -->
     <el-input
       class="search"
-      placeholder="输入关键字进行过滤"
+      placeholder="请输入关键字"
+      prefix-icon="el-icon-search"
       v-model="filterText">
     </el-input>
 
@@ -22,9 +23,6 @@
           <el-button v-if="!data.children" type="text" size="mini" @click="toSee(data)">
             查看
           </el-button>
-          <el-button v-if="!data.children" type="text" size="mini" @click="d(data)">
-            编辑
-          </el-button>
           <el-button type="text" size="mini" @click="sendDelCateData(data.id, data.lv, data.title, data.children, node, data)">
             删除
           </el-button>
@@ -36,7 +34,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapMutations } from 'vuex'
 export default {
   name: 'EditTree',
   data () {
@@ -57,12 +55,12 @@ export default {
     }
   },
   methods: {
+    ...mapMutations(['changeIsEditor']),
     filterNode (value, data) {
       if (!value) return true
       return data.title.indexOf(value) !== -1
     },
     toSee (data) {
-      console.log(`/${data.id}`)
       this.$router.push(`/article/${data.id}`)
     },
     sendDelCateData (id, lv, title, children, node, data) {
@@ -81,6 +79,7 @@ export default {
     max-width: 90%;
     min-width: 300px;
     margin: auto;
+    background: rgba(255,255,255,0);
   }
   .custom-tree-node {
     flex: 1;

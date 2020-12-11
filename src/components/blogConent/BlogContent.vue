@@ -11,7 +11,6 @@
     </el-breadcrumb>
     <el-card>
       <Add v-if="id === 'add'"/>
-      <User v-else-if="id === 'user'"/>
       <Article v-else :articleData="articleData" @upArticleData="getArticle"/>
     </el-card>
   </div>
@@ -20,11 +19,10 @@
 <script>
 import { mapState, mapMutations, mapActions } from 'vuex'
 import Add from './add/Add.vue'
-import User from './user/User.vue'
 import Article from './article/Article.vue'
 import 'assets/css/wangeditor.css'
 export default {
-  components: { Add, User, Article },
+  components: { Add, Article },
   data () {
     return {
       breadcrumb: [],
@@ -47,7 +45,7 @@ export default {
     ...mapActions(['getLogData']),
     // 获取文章数据
     getArticle () {
-      if (this.id === 'add' || this.id === 'user') return
+      if (this.id === 'add') return
       this.$axios.get('/api/blog/getArticle.php', { params: { id: this.id } })
         .then(res => {
           const data = res.data

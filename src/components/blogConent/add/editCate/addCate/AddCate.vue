@@ -127,7 +127,6 @@ export default {
             }))
               .then(res => {
                 const data = res.data
-                console.log(data)
                 // 后台响应成功
                 if (data.success) {
                   // 弹出后台响应状态信息

@@ -1,3 +1,22 @@
+*, *:after, *:before {
+    box-sizing: border-box;
+}
+
+html {
+    background: #23508a;
+    background: radial-gradient(ellipse at center, #23508a 0%, #1b3b62 50%, #1a365b 100%);
+    font-family: arial;
+    min-width: 400px;
+}
+body {
+    width: 100%;
+    height: 100vh;
+    margin: 0;
+    background: radial-gradient(ellipse at center, #73859a 1%, rgba(114, 132, 152, 0) 2%, rgba(0, 0, 0, 0) 100%), radial-gradient(ellipse at center, #73859a 1%, rgba(114, 132, 152, 0) 2%, rgba(0, 0, 0, 0) 100%), radial-gradient(ellipse at center, rgba(115, 133, 154, 0.5) 1%, rgba(114, 132, 152, 0) 2%, rgba(0, 0, 0, 0) 100%);
+    background-size: 250px 250px , 100px 100px , 60px 60px;
+    background-repeat: repeat;
+}
+
 html, body, #app {
 	height: 100%;
 	padding: 0; margin: 0;
@@ -8,4 +27,13 @@ html{
 }
 .el-card {
     box-shadow: 0 1px 1px rgba(0, 0, 0, .15) !important;
+}
+.el-calendar {
+    width: 400px;
+}
+.el-calendar-day {
+    height: 33px !important;
+}
+.v-modal {
+    background: none !important;
 }

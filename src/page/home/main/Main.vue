@@ -12,7 +12,7 @@ export default {
 
 <style lang="less" scoped>
   .el-main {
-    background-color: #f1eefc;
+    background-color: rgba(241,238,252,0.5);
     height: 100%;
   }
 </style>
