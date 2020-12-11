@@ -100,6 +100,12 @@ export default {
   watch: {
     activeIndex (val) {
       this.activeIndex = val
+    },
+    asideData: {
+      handler (value) {
+        this.$refs.articleFormRef.resetFields()
+      },
+      deep: true
     }
   },
   methods: {
