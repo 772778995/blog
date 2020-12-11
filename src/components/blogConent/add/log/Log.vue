@@ -4,7 +4,7 @@
     <el-row :gutter="40">
 
       <el-col class="txt" :span="13">
-        <span v-if="txt">{{txt}}</span>
+        <span v-html="txt"></span>
         <el-divider></el-divider>
       </el-col>
 
@@ -37,7 +37,8 @@
     </el-timeline>
 
     <el-card class="ai" v-if="!logData">
-      今天又是没人关顾的一天
+      <span v-if="isNextDay">什么？？！！居然有人觉得我会预知未来？ ┑(￣。。￣)┍ </span>
+      <span v-else>这一天，又是没人鸟我的一天，哎………………咦？有人来了（( ͡° ͜ʖ ͡°)✧期待ing</span>
     </el-card>
 
   </div>
@@ -49,27 +50,29 @@ export default {
   name: 'Log',
   data () {
     return {
-      txt: null,
+      txt: '青春是一个短暂的美梦, 当你醒来时, 它早已消失无踪',
       date: new Date(),
+      now: new Date(),
       isReverse: false,
       key: '2312349f18155629d19beb68679998f5',
       txtUrl: [
         // 毒鸡汤
-        'http://api.tianapi.com/txapi/dujitang/index',
+        'https://api.tianapi.com/txapi/dujitang/index',
         // 名人名言
-        'http://api.tianapi.com/txapi/mingyan/index',
+        'https://api.tianapi.com/txapi/mingyan/index',
+        // 故事大全
+        // 'https://api.tianapi.com/txapi/story/index',   它数据太长了
         // 彩虹屁
-        'http://api.tianapi.com/txapi/caihongpi/index',
+        'https://api.tianapi.com/txapi/caihongpi/index',
         // 土味情话
-        'http://api.tianapi.com/txapi/saylove/index',
+        'https://api.tianapi.com/txapi/saylove/index',
         // 互删句子
-        'http://api.tianapi.com/txapi/hsjz/index',
+        'https://api.tianapi.com/txapi/hsjz/index',
         // 顺口溜
-        'http://api.tianapi.com/txapi/skl/index',
+        'https://api.tianapi.com/txapi/skl/index',
         // 绕口令
-        'http://api.tianapi.com/txapi/rkl/index'
-      ],
-      spareTxt: '青春是一个短暂的美梦, 当你醒来时, 它早已消失无踪'
+        'https://api.tianapi.com/txapi/rkl/index'
+      ]
     }
   },
   watch: {
@@ -86,6 +89,9 @@ export default {
     ...mapState(['logData']),
     i () {
       return Math.floor(Math.random() * this.txtUrl.length)
+    },
+    isNextDay () {
+      return this.date.getTime() / 86400000 - this.now.getTime() / 86400000 > 0
     }
   },
   methods: {
@@ -100,7 +106,7 @@ export default {
         if (res.data.msg === 'success') {
           this.txt = null
           this.txt = res.data.newslist[0].content
-        } else this.txt = this.spareTxt
+        }
       })
     }
   },
@@ -120,11 +126,10 @@ export default {
       align-items: center;
     }
     .el-switch {
-      margin: 20px;
       float: right;
     }
     .ai {
-      font-size: 30px;
+      font-size: 20px;
       text-align: center;
     }
   }
