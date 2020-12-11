@@ -43,6 +43,6 @@ export default {
   }
   .el-container {
     height: 100%;
-    opacity: 0.94;
+    opacity: 0.92;
   }
 </style>

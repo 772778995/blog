@@ -34,6 +34,19 @@ html{
 .el-calendar-day {
     height: 33px !important;
 }
+
+.el-breadcrumb {
+  margin: 0 0 20px 0;
+}
+
+.el-breadcrumb__inner {
+  color: #def095 !important
+}
+
+.el-breadcrumb__inner.is-link {
+    color: yellow !important
+}
+
 .v-modal {
     background: none !important;
 }

@@ -69,9 +69,6 @@ export default {
 <style lang="less" scoped>
   #blog-content {
     padding-bottom: 80px;
-    .el-breadcrumb {
-      margin: 0 0 20px 0;
-    }
     .el-card {
       padding-bottom: 40px;
     }

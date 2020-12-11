@@ -140,6 +140,11 @@ export default {
       box-sizing: border-box;
       font-weight: bolder;
     }
+    .el-menu-item {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
     .open-aside:hover {
       background-color: #1c3f6c;
     }
