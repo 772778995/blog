@@ -1,59 +1,64 @@
 <template>
-  <!-- 侧边栏 -->
-  <el-aside :width="collapse ? '64px' : '200px'">
-    <div class="open-aside" @click="collapse = !collapse">|||</div>
-    <el-menu
-      :default-active="activePath"
-      :collapse-transition = "false"
-      :collapse = "collapse"
-      unique-opened
-      background-color = "#23508a"
-      text-color = "#fff"
-      router
-      active-text-color = "#ffff00">
-      <!-- 一级菜单 -->
-      <el-submenu
-        v-for = "item in asideData"
-        :index = "'LV'+item.id"
-        :key = "item.id">
-        <template slot = "title">
-          <i class = "el-icon-s-grid"></i>
-          <span>{{item.title}}</span>
-        </template>
-        <!-- 二级菜单 -->
+  <div>
+    <Bg class="bg" v-show="!collapse"/>
+    <!-- 侧边栏 -->
+    <el-aside :width="collapse ? '64px' : '200px'">
+      <div class="open-aside" @click="collapse = !collapse">|||</div>
+      <el-menu
+        :default-active="activePath"
+        :collapse-transition = "false"
+        :collapse = "collapse"
+        unique-opened
+        background-color = "#23508a"
+        text-color = "#fff"
+        router
+        active-text-color = "#ffff00">
+        <!-- 一级菜单 -->
         <el-submenu
-          v-for = "item2 in item.children"
-          :index = "'lv'+item2.id"
-          :key = "item2.id">
+          v-for = "item in asideData"
+          :index = "'LV'+item.id"
+          :key = "item.id">
           <template slot = "title">
-            <i class = "el-icon-menu"></i>
-            {{item2.title}}
+            <i class = "el-icon-s-grid"></i>
+            <span>{{item.title}}</span>
           </template>
-          <!-- 三级菜单 -->
-          <el-menu-item
-          v-for = "item3 in item2.children"
-          :index = "'/article/'+item3.id"
-          :key = "item3.id">
-            <i class="el-icon-tickets"></i>
-            {{item3.title}}
-          </el-menu-item>
+          <!-- 二级菜单 -->
+          <el-submenu
+            v-for = "item2 in item.children"
+            :index = "'lv'+item2.id"
+            :key = "item2.id">
+            <template slot = "title">
+              <i class = "el-icon-menu"></i>
+              {{item2.title}}
+            </template>
+            <!-- 三级菜单 -->
+            <el-menu-item
+            v-for = "item3 in item2.children"
+            :index = "'/article/'+item3.id"
+            :key = "item3.id">
+              <i class="el-icon-tickets"></i>
+              {{item3.title}}
+            </el-menu-item>
+          </el-submenu>
         </el-submenu>
-      </el-submenu>
 
-      <!-- 编辑内容 -->
-      <el-menu-item index="/article/add">
-        <i class = "el-icon-edit"></i>
-        <span slot="title">编辑内容</span>
-      </el-menu-item>
+        <!-- 编辑内容 -->
+        <el-menu-item index="/article/add">
+          <i class = "el-icon-edit"></i>
+          <span slot="title">编辑内容</span>
+        </el-menu-item>
 
-    </el-menu>
-  </el-aside>
+      </el-menu>
+    </el-aside>
+  </div>
 </template>
 
 <script>
 import { mapState, mapActions } from 'vuex'
+import Bg from './bg/Bg.vue'
 export default {
   name: 'Aside',
+  components: { Bg },
   data () {
     return {
       // 侧边栏导航默认项
@@ -123,7 +128,7 @@ export default {
 
 <style lang="less" scoped>
   .el-aside {
-    background: rgba(157,198,255,0.1);
+    background: rgba(157,198,255,0.01);
     height: 100%;
     .open-aside {
       width: 100%;

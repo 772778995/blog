@@ -145,7 +145,9 @@ export default {
       // 检查登陆状态
       if (this.userInfo) {
         // 已登录，向后台提出请求
-        this.articleForm.content = this.editor.txt.html()
+        console.log(this.editor.txt.html())
+        this.articleForm.content = this.$xss(this.editor.txt.html())
+        console.log(this.articleForm.content)
         this.$axios.post('/api/blog/addArticle.php', this.$qs.stringify({
           data: this.articleForm,
           author: this.userInfo.name

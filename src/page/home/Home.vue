@@ -1,6 +1,5 @@
 <template>
   <div id="app">
-    <Bg class="bg" />
     <el-container>
       <el-header>
         <Header/>
@@ -14,14 +13,12 @@
 </template>
 
 <script>
-import Bg from '../bg/Bg.vue'
 import Header from './header/Header.vue'
 import Aside from './aside/Aside.vue'
 import Main from './main/Main.vue'
 export default {
   name: 'Home',
   components: {
-    Bg,
     Header,
     Aside,
     Main

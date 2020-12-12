@@ -60,7 +60,6 @@ export default new Vuex.Store({
       const year = state.date.getFullYear()
       const month = state.date.getMonth() + 1
       const day = state.date.getDate()
-      console.log(`${year}-${month}-${day}`)
       return `${year}-${month}-${day}`
     }
   },

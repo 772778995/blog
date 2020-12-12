@@ -38,10 +38,8 @@ export default {
 
   .figure {
     position: fixed;
-    left: 50%;
-    top: 50%;
-    -webkit-transform: translate(-50%, -65%);
-            transform: translate(-50%, -65%);
+    left: 25px;
+    bottom: 15px;
   }
 
   .error-no {

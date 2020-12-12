@@ -62,7 +62,7 @@ export default {
           data: {
             id: this.articleData.id,
             title: this.articleData.title,
-            content: this.editor.txt.html()
+            content: this.$xss(this.editor.txt.html())
           },
           // 用户信息
           author: this.userInfo.name

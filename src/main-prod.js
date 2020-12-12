@@ -4,8 +4,9 @@ import router from './router'
 import axios from 'axios'
 import qs from 'qs'
 import './assets/css/global.css'
-import './plugins/element.js'
+// import './plugins/element.js'
 import store from './store'
+import xss from 'xss'
 
 let needRequestCount = 0
 axios.interceptors.request.use(function (config) {
@@ -32,6 +33,7 @@ axios.interceptors.response.use(function (response) {
 
 Vue.prototype.$axios = axios
 Vue.prototype.$qs = qs
+Vue.prototype.$xss = xss
 Vue.config.productionTip = false
 
 const vue = new Vue({
