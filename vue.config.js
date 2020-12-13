@@ -23,7 +23,8 @@ module.exports = {
         vue: 'Vue',
         'vue-router': 'VueRouter',
         axios: 'axios',
-        'element-ui': 'ELEMENT'
+        'element-ui': 'ELEMENT',
+        nprogress: 'NProgress'
       })
     })
     // 开发环境
