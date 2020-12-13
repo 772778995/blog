@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
-import { setCookies } from '../assets/js/cookies.js'
 
 Vue.use(Vuex)
 
@@ -39,9 +38,8 @@ export default new Vuex.Store({
     },
     // 退出登陆
     loginOut (state) {
-      setCookies('BAEID', false, -1)
-      location.reload()
       state.userInfo = false
+      axios.get('/api/public/loginOut.php')
     },
     // 赋值侧边栏数据
     setAsideData (state, data) {

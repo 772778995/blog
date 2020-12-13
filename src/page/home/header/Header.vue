@@ -68,7 +68,6 @@
 
 <script>
 import { mapState, mapMutations, mapActions } from 'vuex'
-import { getCookies } from '../../../assets/js/cookies.js'
 export default {
   name: 'Header',
   data () {
@@ -125,7 +124,7 @@ export default {
     }
   },
   created () {
-    if (getCookies().BAEID) this.getUserInfo()
+    this.getUserInfo()
   }
 }
 </script>
