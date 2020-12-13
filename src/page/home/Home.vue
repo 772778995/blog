@@ -13,6 +13,7 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 import Header from './header/Header.vue'
 import Aside from './aside/Aside.vue'
 import Main from './main/Main.vue'
@@ -23,7 +24,11 @@ export default {
     Aside,
     Main
   },
-  mounted () {
+  methods: {
+    ...mapActions(['getUserInfo'])
+  },
+  created () {
+    this.getUserInfo()
     this.$axios.get('/api/public/getIP.php')
   }
 }

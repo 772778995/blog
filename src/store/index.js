@@ -6,8 +6,6 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    // 登陆框是否显示
-    loginDialog: false,
     // 用户信息
     userInfo: false,
     // 侧边栏数据
@@ -23,14 +21,6 @@ export default new Vuex.Store({
     // 赋值用户信息
     setUserInfo (state, data) {
       state.userInfo = data
-    },
-    // 显示登陆框
-    showLoginDialog (state) {
-      state.loginDialog = true
-    },
-    // 隐藏登陆框
-    hiddenLoginDialog (state) {
-      state.loginDialog = false
     },
     // 改变编辑状态
     changeIsEditor (state, data) {
