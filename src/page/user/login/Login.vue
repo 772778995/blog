@@ -102,6 +102,7 @@ export default {
   .el-form {
     width: 400px; height: 300px;
     background-color: #fff;
+    opacity: .9;
     padding: 20px;
     position: absolute;
     top: 50%; left:  50%;

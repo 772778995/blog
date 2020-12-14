@@ -230,6 +230,7 @@ export default {
   .registe_box {
     width: 400px; height: 455px;
     background: #fff;
+    opacity: .9;
     position: absolute;
     left: 50%; top: 50%;
     transform: translate(-50%,-50%);
