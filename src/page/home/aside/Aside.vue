@@ -31,14 +31,20 @@
               <i class = "el-icon-menu"></i>
               {{item2.title}}
             </template>
-            <!-- 三级菜单 -->
-            <el-menu-item
-            v-for = "item3 in item2.children"
-            :index = "'/article/'+item3.id"
-            :key = "item3.id">
-              <i class="el-icon-tickets"></i>
-              {{item3.title}}
-            </el-menu-item>
+            <!-- 三级菜单文字提示 -->
+            <el-tooltip
+              v-for = "item3 in item2.children"
+              :key = "item3.id"
+              effect="dark"
+              :content="item3.title"
+              :enterable="false"
+              placement="top-end">
+                <!-- 三级菜单 -->
+                <el-menu-item :index = "'/article/'+item3.id">
+                  <i class="el-icon-tickets"></i>
+                  {{item3.title}}
+                </el-menu-item>
+            </el-tooltip>
           </el-submenu>
         </el-submenu>
 
