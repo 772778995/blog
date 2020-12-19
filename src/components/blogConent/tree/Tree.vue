@@ -69,7 +69,6 @@ export default {
   },
   created () {
     this.getTxt()
-    setInterval(this.getTxt, 30000)
   }
 }
 </script>

@@ -86,7 +86,7 @@ export default {
                 // 弹出成功信息
                 this.$message.success(data.active)
                 // 跳转博客页面
-                this.$router.push('/article/add')
+                this.$router.push('/article/tree')
                 // 后台响应失败,弹出警告信息
               } else this.$message.warning(data.active)
             })
