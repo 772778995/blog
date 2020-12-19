@@ -14,6 +14,13 @@
         router
         active-text-color = "#ffff00">
         <!-- 一级菜单 -->
+
+        <!-- 目录 -->
+        <el-menu-item index="/article/tree">
+          <i class = "el-icon-notebook-1"></i>
+          <span slot="title"> 目 录 </span>
+        </el-menu-item>
+
         <el-submenu
           v-for = "item in asideData"
           :index = "'LV'+item.id"
@@ -49,7 +56,7 @@
         </el-submenu>
 
         <!-- 编辑内容 -->
-        <el-menu-item index="/article/add">
+        <el-menu-item v-if="userInfo.power > 1" index="/article/add">
           <i class = "el-icon-edit"></i>
           <span slot="title">编辑内容</span>
         </el-menu-item>

@@ -25,6 +25,7 @@ html{
     overflow-y: hidden;
     font-family: -apple-system,BlinkMacSystemFont,Helvetica Neue,Helvetica,Arial,PingFang SC,Hiragino Sans GB,Microsoft YaHei,sans-serif;
 }
+ul { list-style: none; }
 .el-card {
     box-shadow: 0 1px 1px rgba(0, 0, 0, .15) !important;
 }

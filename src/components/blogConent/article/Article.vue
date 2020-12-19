@@ -8,33 +8,34 @@
     <div v-show="!isEditor">
       <el-card>
         <h1>{{articleData.title}}</h1>
-          作者:<el-tag>{{articleData.author}}</el-tag>
           <span class="right">
-            发布于: {{articleData.createTime}}
+            {{articleData.createTime}}
           </span>
       </el-card>
       <div v-html="articleData.content"></div>
-      <div class="right">
+      <el-col :span="5" :offset="19">
         <p>
           最终编辑于 {{articleData.editTime}}
         </p>
-        <el-button @click="changeIsEditor(true)">
+        <el-button v-if="userInfo.power > 1" @click="changeIsEditor(true)">
           编辑文章
         </el-button>
-      </div>
+      </el-col>
     </div>
   </div>
 </template>
 
 <script>
-import { mapState, mapMutations } from 'vuex'
 import E from 'wangeditor'
+import { mapState, mapMutations } from 'vuex'
 export default {
   name: 'Article',
   props: ['articleData'],
   data () {
     return {
-      editor: null
+      // 编辑文章内容
+      editor: null,
+      comment: null
     }
   },
   computed: {
@@ -71,6 +72,8 @@ export default {
             const data = res.data
             // 后台响应成功
             if (data.success) {
+              // 退出编辑状态
+              this.changeIsEditor(false)
               // 更新文章数据
               this.$emit('upArticleData')
               // 弹出成功信息
@@ -86,6 +89,7 @@ export default {
     }
   },
   mounted () {
+    // 编辑文章内容
     this.editor = new E('#editor')
     this.editor.config.height = 400
     this.editor.config.zIndex = 100
