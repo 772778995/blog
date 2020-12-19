@@ -14,6 +14,8 @@
         :data="asideData"
         :props="treeProps"
         node-key="id"
+        default-expand-all
+        accordion
         :filter-node-method="filterNode"
         ref="tree">
         <span class="custom-tree-node" slot-scope="{ node, data }">
