@@ -51,8 +51,8 @@ export default {
     }
   },
   methods: {
-    // 改变编辑状态,显示登陆框
-    ...mapMutations(['changeIsEditor', 'showLoginDialog']),
+    // 改变编辑状态
+    ...mapMutations(['changeIsEditor']),
     // 提交修改文章
     sendEditArticle () {
       if (this.userInfo) {
@@ -81,8 +81,8 @@ export default {
               // 后台响应失败,弹出警告信息
             } else this.$message.warning(data.active)
           })
-          // 未登录,弹出登陆框
-      } else this.showLoginDialog()
+          // 未登录,弹出警告信息
+      } else this.$message.warning('您未登录！')
     }
   },
   mounted () {

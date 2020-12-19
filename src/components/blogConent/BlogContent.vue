@@ -41,7 +41,7 @@ export default {
     ...mapState(['userInfo'])
   },
   methods: {
-    ...mapMutations(['showLoginDialog', 'changeIsEditor']),
+    ...mapMutations(['changeIsEditor']),
     ...mapActions(['getLogData']),
     // 获取文章数据
     getArticle () {
@@ -57,11 +57,6 @@ export default {
   created () {
     this.getArticle()
     this.getLogData()
-  },
-  beforeRouteUpdate (to, from, next) {
-    if (to.params.id === 'user' && !this.userInfo) {
-      this.showLoginDialog()
-    } else next()
   }
 }
 </script>

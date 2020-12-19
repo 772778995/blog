@@ -68,7 +68,7 @@
 
 <script>
 import E from 'wangeditor'
-import { mapState, mapMutations, mapActions } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 
 export default {
   name: 'AddArticle',
@@ -109,7 +109,6 @@ export default {
     }
   },
   methods: {
-    ...mapMutations(['showLoginDialog']),
     ...mapActions(['getAsideData', 'getLogData']),
 
     // 选中一级分类后获取该分类下的二级分类
@@ -168,8 +167,8 @@ export default {
               this.getLogData()
             } else this.$notify.warning({ title: data.active })
           })
-          // 未登录,显示登陆框
-      } else this.showLoginDialog()
+          // 未登录,弹出警告信息
+      } else this.$message.warning('您未登录！')
     }
   },
   mounted () {

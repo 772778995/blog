@@ -64,7 +64,7 @@
 </template>
 
 <script>
-import { mapState, mapMutations, mapActions } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 export default {
   name: 'AddCate',
   data () {
@@ -100,7 +100,6 @@ export default {
   watch: {
   },
   methods: {
-    ...mapMutations(['showLoginDialog']),
     ...mapActions(['getAsideData', 'getLogData']),
     // 触发父组件的删除分类的方法
     sendDelCateData (id, lv, title, children, node, data) {
@@ -140,8 +139,8 @@ export default {
                   // 后台响应失败弹出状态信息
                 } else this.$message.warning(data.active)
               })
-              // 未登录,显示登陆框
-          } else this.showLoginDialog()
+              // 未登录,弹出警告信息
+          } else this.$message.warning('您未登录！')
         }
       })
     }

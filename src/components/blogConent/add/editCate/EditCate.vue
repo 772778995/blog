@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import { mapState, mapMutations, mapActions } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 import EditTree from './editTree/EditTree.vue'
 import AddCate from './addCate/AddCate.vue'
 export default {
@@ -32,7 +32,6 @@ export default {
     ...mapState(['asideData', 'userInfo'])
   },
   methods: {
-    ...mapMutations(['showLoginDialog']),
     ...mapActions(['getAsideData', 'getLogData']),
     // 删除树目录节点
     removeNode (node, data) {
@@ -70,8 +69,8 @@ export default {
                 // 如果后台响应失败
               } else this.$message.warning(data.active)
             })
-            // 未登录则显示登陆框
-        } else this.showLoginDialog()
+            // 未登录，弹出警告信息
+        } else this.$message.warning('您未登录！')
       })
     }
   }

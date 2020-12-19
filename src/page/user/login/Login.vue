@@ -39,7 +39,7 @@
 </template>
 
 <script>
-import { mapState, mapMutations, mapActions } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 export default {
   name: 'Login',
   data () {
@@ -66,7 +66,6 @@ export default {
     ...mapState(['userInfo'])
   },
   methods: {
-    ...mapMutations(['showLoginDialog']),
     ...mapActions(['getUserInfo']),
     // 登陆事件
     login () {
