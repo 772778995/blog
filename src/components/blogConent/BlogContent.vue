@@ -34,6 +34,7 @@
           <span class="right">{{index + 1}}楼</span>
           <el-divider></el-divider>
       </div>
+      <div class="no-comment" v-if="commentListData == []">暂无评论</div>
     </el-card>
 
   </div>
@@ -161,6 +162,9 @@ export default {
       .comment-item {
         margin: 20px;
         padding: 0 20px;
+      }
+      .no-comment {
+        text-align: center;
       }
       .right {
         float: right;

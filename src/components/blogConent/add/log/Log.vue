@@ -50,29 +50,9 @@ export default {
   name: 'Log',
   data () {
     return {
-      txt: '青春是一个短暂的美梦, 当你醒来时, 它早已消失无踪',
       date: new Date(),
       now: new Date(),
-      isReverse: false,
-      key: '2312349f18155629d19beb68679998f5',
-      txtUrl: [
-        // 毒鸡汤
-        'https://api.tianapi.com/txapi/dujitang/index',
-        // 名人名言
-        'https://api.tianapi.com/txapi/mingyan/index',
-        // 故事大全
-        // 'https://api.tianapi.com/txapi/story/index',   它数据太长了
-        // 彩虹屁
-        'https://api.tianapi.com/txapi/caihongpi/index',
-        // 土味情话
-        'https://api.tianapi.com/txapi/saylove/index',
-        // 互删句子
-        'https://api.tianapi.com/txapi/hsjz/index',
-        // 顺口溜
-        'https://api.tianapi.com/txapi/skl/index',
-        // 绕口令
-        'https://api.tianapi.com/txapi/rkl/index'
-      ]
+      isReverse: false
     }
   },
   watch: {
@@ -86,29 +66,14 @@ export default {
     }
   },
   computed: {
-    ...mapState(['logData']),
-    i () {
-      return Math.floor(Math.random() * this.txtUrl.length)
-    },
+    ...mapState(['logData', 'txt']),
     isNextDay () {
       return this.date.getTime() / 86400000 - this.now.getTime() / 86400000 > 0
     }
   },
   methods: {
     ...mapMutations(['changeDate', 'setLogData']),
-    ...mapActions(['getLogData']),
-    getTxt () {
-      this.$axios.get(this.txtUrl[this.i], {
-        params: {
-          key: this.key
-        }
-      }).then(res => {
-        if (res.data.msg === 'success') {
-          this.txt = null
-          this.txt = res.data.newslist[0].content
-        }
-      })
-    }
+    ...mapActions(['getLogData', 'getTxt'])
   },
   created () {
     this.getTxt()
